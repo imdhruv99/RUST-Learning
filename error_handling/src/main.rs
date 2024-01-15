@@ -1,5 +1,5 @@
-use std::fs::File;
-use std::io::ErrorKind; // let us match type of error
+use std::fs::{self, File};
+use std::io::{ErrorKind, self, Read}; // let us match type of error
 
 fn a() {
     b();
@@ -46,4 +46,21 @@ fn main() {
             }
         }
     };
+
+    let _read_username_from_file = read_username_from_file();
 }
+
+// Error Propagation example, returns Result type
+fn read_username_from_file() -> Result<String, io::Error> {
+    // let mut s = String::new();
+    //  ? will work as if condition, if below code fails, it will return the error
+    // File::open("hello.txt")?.read_to_string(&mut s)?;
+    // Ok(s)
+
+    // below line will run as above 3 line
+    fs::read_to_string("hello.txt")
+}
+
+// understood when to use panic vs Result
+// Mostly use Result type until and unless you can't avoid error
+// Alternate approach would be the custom type to handle the error
